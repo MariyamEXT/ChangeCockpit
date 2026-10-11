@@ -1,10 +1,10 @@
 [
   {
-  
-  "userName" : "ccadmin",
-  "password": "Test@123",
-  "TaskName" : "Test Task Auto",
-  "TaskDescription" : "Test Task Automation"
-  
+    "TaskPackageName": "TaskPackageName",
+    "TaskPackageDec": "TaskPackageDesc",
+    "TaskName": "AutomationTask",
+    "TaskDesc": "AutomationTaskDescription",
+    "TaskType": "Normal",
+    "UserGroup": "Change Manager"
   }
 ]

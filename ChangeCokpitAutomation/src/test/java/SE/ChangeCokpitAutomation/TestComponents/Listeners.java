@@ -17,9 +17,10 @@ import SE.ChangeCokpitAutomation.Reports.ReportExtent;
 
 public class Listeners extends BaseTest implements ITestListener {
 	
-	ExtentTest test;
+
 	ExtentReports extent = ReportExtent.getReportObject();
 	ThreadLocal<ExtentTest> extentTest = new ThreadLocal<ExtentTest>(); //Thread safe
+	ExtentTest test;
 
 	public void onTestStart(ITestResult result) {
 		test = extent.createTest(result.getMethod().getMethodName());
@@ -112,7 +113,7 @@ public class Listeners extends BaseTest implements ITestListener {
 	   */
 	public void onFinish(ITestContext context) {
 		extent.flush();
-	  }
-	
+		System.out.println("Extent Report Flushed Successfully");
+		}
 	
 }
