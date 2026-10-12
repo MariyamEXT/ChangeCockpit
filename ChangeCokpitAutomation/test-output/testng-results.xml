@@ -2,16 +2,16 @@
 <testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2026-10-08T10:23:31 IST" name="Default suite" finished-at="2026-10-08T10:25:23 IST" duration-ms="112029">
+  <suite started-at="2026-10-12T13:06:53 IST" name="Default suite" finished-at="2026-10-12T13:09:26 IST" duration-ms="153238">
     <groups>
     </groups>
-    <test started-at="2026-10-08T10:23:31 IST" name="Default test" finished-at="2026-10-08T10:25:23 IST" duration-ms="112029">
-      <class name="SE.ChangeCokpitAutomation.Tests.CreateProcessMilestoneTest">
-        <test-method is-config="true" signature="launchApplication()[pri:0, instance:SE.ChangeCokpitAutomation.Tests.CreateProcessMilestoneTest@5fdcaa40]" started-at="2026-10-08T10:23:31 IST" name="launchApplication" finished-at="2026-10-08T10:23:42 IST" duration-ms="10197" status="PASS">
+    <test started-at="2026-10-12T13:06:53 IST" name="Default test" finished-at="2026-10-12T13:09:26 IST" duration-ms="153238">
+      <class name="SE.ChangeCokpitAutomation.Tests.CreateCOProcessMilestoneTest">
+        <test-method is-config="true" signature="launchApplication()[pri:0, instance:SE.ChangeCokpitAutomation.Tests.CreateCOProcessMilestoneTest@5fdcaa40]" started-at="2026-10-12T13:06:53 IST" name="launchApplication" finished-at="2026-10-12T13:07:04 IST" duration-ms="10428" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- launchApplication -->
-        <test-method signature="createProcessMilestoneFlow(java.util.HashMap)[pri:0, instance:SE.ChangeCokpitAutomation.Tests.CreateProcessMilestoneTest@5fdcaa40]" started-at="2026-10-08T10:23:42 IST" name="createProcessMilestoneFlow" data-provider="getData" finished-at="2026-10-08T10:25:22 IST" duration-ms="100192" status="PASS">
+        <test-method signature="createCOProcessMilestoneFlow(java.util.HashMap)[pri:0, instance:SE.ChangeCokpitAutomation.Tests.CreateCOProcessMilestoneTest@5fdcaa40]" started-at="2026-10-12T13:07:04 IST" name="createCOProcessMilestoneFlow" data-provider="getData" finished-at="2026-10-12T13:09:25 IST" duration-ms="141230" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -21,12 +21,12 @@
           </params>
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- createProcessMilestoneFlow -->
-        <test-method is-config="true" signature="tearDown()[pri:0, instance:SE.ChangeCokpitAutomation.Tests.CreateProcessMilestoneTest@5fdcaa40]" started-at="2026-10-08T10:25:22 IST" name="tearDown" finished-at="2026-10-08T10:25:23 IST" duration-ms="1361" status="PASS">
+        </test-method> <!-- createCOProcessMilestoneFlow -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:SE.ChangeCokpitAutomation.Tests.CreateCOProcessMilestoneTest@5fdcaa40]" started-at="2026-10-12T13:09:25 IST" name="tearDown" finished-at="2026-10-12T13:09:26 IST" duration-ms="1245" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->
-      </class> <!-- SE.ChangeCokpitAutomation.Tests.CreateProcessMilestoneTest -->
+      </class> <!-- SE.ChangeCokpitAutomation.Tests.CreateCOProcessMilestoneTest -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>

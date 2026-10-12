@@ -1,9 +1,11 @@
 package SE.ChangeCokpitAutomation.pageobjects;
 
 import java.time.Duration;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -15,6 +17,7 @@ public class CreateProcessPage {
 
 	WebDriver driver;
 	WebDriverWait wait;
+	private String createdProcessName;
 
 	public CreateProcessPage(WebDriver driver) {
 
@@ -56,7 +59,17 @@ public class CreateProcessPage {
 
 	@FindBy(xpath = "//button[@title='Create a new Milestone']")
 	WebElement createNewMilestoneBtn;
+	
+	@FindBy(xpath = "//div[contains(@id,'switch1_hdi') and @role='switch']")
+	WebElement activeToggle;
 
+	@FindBy(xpath = "//button[normalize-space()='Cancel']")
+	WebElement processCancelBtn;
+	
+	@FindBy(xpath = "(//input[contains(@class,'filter-input')])[1]")
+	WebElement processNameFilter;
+	
+	
 	public void goToProcessesPage() throws InterruptedException {
 
 		wait.until(ExpectedConditions.visibilityOf(MasterData));
@@ -85,12 +98,12 @@ public class CreateProcessPage {
 
 	    wait.until(ExpectedConditions.visibilityOf(processName));
 
-	    String processNameValue =
+	    createdProcessName =
 	            processPrefix + System.currentTimeMillis();
 
-	    processName.sendKeys(processNameValue);
+	    processName.sendKeys(createdProcessName);
 
-	    abbreviation.sendKeys(processNameValue);
+	    abbreviation.sendKeys(createdProcessName);
 
 	    wait.until(
 	            ExpectedConditions.elementToBeClickable(
@@ -145,14 +158,14 @@ public class CreateProcessPage {
 
 	    wait.until(ExpectedConditions.visibilityOf(processName));
 
-	    String processNameValue =
+	    createdProcessName =
 	            "AutomationCO" + System.currentTimeMillis();
 
+	    processName.sendKeys(createdProcessName);
+
+	    abbreviation.sendKeys(createdProcessName);
+
 	    Thread.sleep(1000);
-
-	    processName.sendKeys(processNameValue);
-
-	    abbreviation.sendKeys(processNameValue);
 
 	    Thread.sleep(1000);
 
@@ -188,4 +201,133 @@ public class CreateProcessPage {
 	            ExpectedConditions.visibilityOf(
 	                    addMilestoneButton));
 	}
+	
+	public void makeProcessActive() throws InterruptedException {
+
+	    Thread.sleep(3000);
+
+	    By toggleLocator =
+	            By.xpath("//div[@role='switch']");
+
+	    wait.until(
+	            ExpectedConditions.visibilityOfElementLocated(
+	                    toggleLocator));
+
+	    WebElement toggle =
+	            driver.findElement(toggleLocator);
+
+	    String status =
+	            toggle.getAttribute("aria-checked");
+
+	    System.out.println("Current Toggle Status = " + status);
+
+	    if ("false".equals(status)) {
+
+	        ((JavascriptExecutor) driver)
+	                .executeScript(
+	                        "arguments[0].click();",
+	                        toggle);
+
+	        System.out.println("Process Activated");
+	    }
+	    else {
+
+	        System.out.println("Process Already Active");
+	    }
+	}
+	
+	
+	public void saveProcess() {
+
+	    wait.until(ExpectedConditions.elementToBeClickable(saveButton));
+
+	    saveButton.click();
+	}
+	
+	public void clickProcessCancel() {
+
+	    wait.until(ExpectedConditions.elementToBeClickable(processCancelBtn));
+
+	    ((JavascriptExecutor) driver)
+	            .executeScript("arguments[0].click();", processCancelBtn);
+
+	    System.out.println("Process Cancel Clicked");
+	}	
+	public void searchProcess(String processName)
+	        throws InterruptedException {
+
+	    wait.until(
+	            ExpectedConditions.visibilityOf(
+	                    processNameFilter));
+
+	    processNameFilter.clear();
+
+	    processNameFilter.sendKeys(processName);
+
+	    // Trigger the grid search
+	    processNameFilter.sendKeys(Keys.TAB);
+
+	    Thread.sleep(3000);
+
+	    System.out.println(
+	            "Process Searched : " + processName);
+
+	    System.out.println(
+	            "Rows Found : "
+	                    + driver.findElements(
+	                            By.xpath(
+	                                    "//*[contains(text(),'"
+	                                            + processName
+	                                            + "')]"))
+	                            .size());
+	}
+	
+	public boolean verifyProcessIsActive(
+	        String processName) {
+
+	    System.out.println(
+	            "Verifying Process : "
+	                    + processName);
+
+	    List<WebElement> processRows =
+	            driver.findElements(
+	                    By.xpath(
+	                            "//*[contains(text(),'"
+	                                    + processName
+	                                    + "')]"));
+
+	    System.out.println(
+	            "Matching Process Rows = "
+	                    + processRows.size());
+
+	    List<WebElement> activeRows =
+	            driver.findElements(
+	                    By.xpath(
+	                            "//*[contains(text(),'"
+	                                    + processName
+	                                    + "')]"
+	                                    + "/ancestor::*[contains(@class,'tr')]"
+	                                    + "//*[text()='Yes']"));
+
+	    System.out.println(
+	            "Active Rows Found = "
+	                    + activeRows.size());
+
+	    return activeRows.size() > 0;
+	}
+	public boolean isProcessActive() {
+
+	    WebElement toggle =
+	            driver.findElement(
+	                    By.xpath("//div[@role='switch']"));
+
+	    return "true".equals(
+	            toggle.getAttribute("aria-checked"));
+	}
+
+	public String getCreatedProcessName() {
+	    return createdProcessName;
+	}
+	
+	
 }

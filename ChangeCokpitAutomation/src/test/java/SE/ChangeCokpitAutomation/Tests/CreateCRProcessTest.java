@@ -1,5 +1,7 @@
 package SE.ChangeCokpitAutomation.Tests;
 
+import org.testng.annotations.Test;
+import org.testng.AssertJUnit;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Properties;
@@ -7,8 +9,6 @@ import java.util.Properties;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
-import org.testng.annotations.Test;
 import SE.ChangeCokpitAutomation.pageobjects.CreateProcessPage;
 import SE.ChangeCokpitAutomation.TestComponents.BaseTest;
 import SE.ChangeCokpitAutomation.pageobjects.CreateMilestonePage;
@@ -17,7 +17,7 @@ import SE.ChangeCokpitAutomation.pageobjects.LoginPage;
 import SE.ChangeCokpitAutomation.utils.ProcessTypes;
 import SE.ChangeCokpitAutomation.utils.UserGroups;
 
-public class CreateCrProcessTest extends BaseTest {
+public class CreateCRProcessTest extends BaseTest {
 
 	@Test
 	public void createCrProcess() throws IOException, InterruptedException {
@@ -53,10 +53,10 @@ public class CreateCrProcessTest extends BaseTest {
 
 		milestonePage.saveMilestone();
 
-		Assert.assertTrue(
+		AssertJUnit.assertTrue(
 		        milestonePage.verifyCreatedMilestone(
 		                milestoneName));
-
+		
 
 	}
 }

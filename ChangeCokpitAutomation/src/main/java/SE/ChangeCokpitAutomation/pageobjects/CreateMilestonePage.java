@@ -482,17 +482,6 @@ public class CreateMilestonePage {
 	}
 	
 	public void publishMilestone() throws InterruptedException {
-		wait.until(ExpectedConditions.elementToBeClickable(changeMilestoneButton));
-
-		((JavascriptExecutor) driver)
-		        .executeScript("arguments[0].scrollIntoView({block:'center'});",
-		                changeMilestoneButton);
-
-        Thread.sleep(1000);
-
-		((JavascriptExecutor) driver)
-		        .executeScript("arguments[0].click();",
-		                changeMilestoneButton);
 
 	    // Publish Milestone
 	    wait.until(ExpectedConditions.elementToBeClickable(publishMilestoneBtn));
@@ -522,12 +511,12 @@ public class CreateMilestonePage {
         Thread.sleep(1000);
 
 	    // Process Cancel
-	    wait.until(ExpectedConditions.elementToBeClickable(processCancelBtn));
-
-	    ((JavascriptExecutor) driver)
-	            .executeScript("arguments[0].click();", processCancelBtn);
-
-	    System.out.println("Process Cancel Clicked");
+//	    wait.until(ExpectedConditions.elementToBeClickable(processCancelBtn));
+//
+//	    ((JavascriptExecutor) driver)
+//	            .executeScript("arguments[0].click();", processCancelBtn);
+//
+//	    System.out.println("Process Cancel Clicked");
 	}
 	
 

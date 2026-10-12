@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
+import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -60,9 +61,24 @@ public class CreateCOProcessMilestoneTest extends BaseTest {
                 input.get("TaskName"),
                 input.get("TaskDesc"));
 
-        // milestonePage.saveTaskPackageAndMilestone();
+        milestonePage.saveTaskPackageAndMilestone();
+//        milestonePage.setTaskPackageAndMilestoneOrder();
+        milestonePage.clickEditMilestone(milestoneName);
 
-        // milestonePage.publishMilestone();
+        milestonePage.publishMilestone();
+        processPage.makeProcessActive();
+        processPage.saveProcess();
+        processPage.clickProcessCancel();
+        
+        String processName =
+                processPage.getCreatedProcessName();
+
+        processPage.searchProcess(processName);
+
+        Assert.assertTrue(
+                processPage.verifyProcessIsActive(processName));
+        
+        
     }
 
     @DataProvider
