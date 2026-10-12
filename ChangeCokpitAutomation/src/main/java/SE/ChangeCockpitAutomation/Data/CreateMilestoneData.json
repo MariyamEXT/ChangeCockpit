@@ -1,25 +1,10 @@
 [
   {
-  
-  "userName" : "ccadmin",
-  "password": "Test@123",
-  "MilestoneName" : "Milestone",
-  "MilestoneDescription" : "Milestone Desc",
-  "Order" : "1",
-  "ChangeObject" : "CR",
-  "ProcessFlow" : "Change before Production Release",
-  "TaskPackageName" : "July Task Package Name",
-  "TaskPackageDec" : "July Task Package Desc",
-  "TaskName" : "July Task Name",
-  "TaskDesc" : "July Task Desc"
-  
-  
-  
-  
-  
-  
-
-  
-  
+    "userName": "automationadmin",
+    "password": "AutomationAdmin@123",
+    "TaskPackageName": "TaskPackageName",
+    "TaskPackageDec": "TaskPackageDesc",
+    "TaskName": "TaskNameNormal",
+    "TaskDesc": "TaskDesc"
   }
 ]

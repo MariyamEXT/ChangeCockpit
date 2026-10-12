@@ -1,0 +1,16 @@
+package SE.ChangeCokpitAutomation.Data;
+
+public class CreateCOData {
+
+    public static final String PROCESS_TYPE =
+            "Change Order";
+
+    public static final String PROCESS_PREFIX =
+            "AutomationCO";
+
+    public static final String USER_GROUP =
+            "Change Manager";
+
+    public static final String MILESTONE_DESC =
+            "Automation Milestone Description";
+}
