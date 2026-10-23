@@ -1,6 +1,8 @@
 package SE.ChangeCokpitAutomation.pageobjects;
 
 import java.time.Duration;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -177,10 +179,37 @@ public class CreateMilestonePage {
 	@FindBy(xpath="//button[normalize-space()='Cancel']")
 	WebElement processCancelBtn;
 	
+	@FindBy(xpath = "//label[contains(text(),'Outcomes')]/following::div[contains(@class,'mx-name-dropDown1')][1]")
+	WebElement outcomesDropdown;
+	
+	// Task Type Dropdown Arrow
+	@FindBy(xpath =
+	"//label[contains(text(),'Task Type')]/following::div[contains(@class,'widget-combobox-down-arrow')][1]")
+	WebElement taskTypeDropDownArrow;
+
+	// Outcomes Dropdown Arrow
+	@FindBy(xpath =
+	"//label[contains(text(),'Outcomes')]/following::div[contains(@class,'widget-combobox-down-arrow')][1]")
+	WebElement outcomesDropDownArrow;
+	
+	@FindBy(xpath =
+			"//label[contains(text(),'Notification Type')]/following::div[contains(@class,'widget-combobox-down-arrow')][1]")
+	WebElement notificationTypeDropDownArrow;
+
+	@FindBy(xpath = "//textarea")
+	WebElement milestoneDescription;
+
+	@FindBy(xpath = "//button[contains(text(),'Save As Draft')]")
+	WebElement saveAsDraftBtn;
+
+	@FindBy(xpath = "//button[contains(text(),'Add Task Package')]")
+	WebElement addTaskPackageBtn;
+	
 	public String createMilestoneInProcess() {
 
-		createdMilestoneName = "Milestone" + String.valueOf(System.currentTimeMillis()).substring(7);
-
+		createdMilestoneName =
+		        "M@" + String.format("%03d",
+		                System.currentTimeMillis() % 1000);
 		// Wait for loading overlay to disappear
 		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("mxui_widget_Progress_0")));
 
@@ -244,31 +273,60 @@ public class CreateMilestonePage {
 		System.out.println("Clicked Change Milestone Button : " + milestoneName);
 	}
 
-//	public void selectTaskType(String taskType) {
-//
-//		wait.until(ExpectedConditions.elementToBeClickable(taskTypeDropdown));
-//
-//		taskTypeDropdown.click();
-//
-//		WebElement option = wait
-//				.until(ExpectedConditions.elementToBeClickable(By.xpath("//li[contains(text(),'" + taskType + "')]")));
-//
-//		option.click();
-//
-//		System.out.println("Task Type Selected : " + taskType);
-//	}
+	public void selectTaskType(String taskType)
+	        throws InterruptedException {
 
-//	public void selectUserGroup(String userGroup) {
-//
-//		wait.until(ExpectedConditions.elementToBeClickable(userGroupDropdown));
-//
-//		userGroupDropdown.click();
-//
-//		WebElement option = wait
-//				.until(ExpectedConditions.elementToBeClickable(By.xpath("//li[contains(text(),'" + userGroup + "')]")));
-//
-//		option.click();
-//	}
+	    wait.until(
+	            ExpectedConditions.elementToBeClickable(
+	                    taskTypeDropDownArrow));
+
+	    ((JavascriptExecutor) driver)
+	            .executeScript(
+	                    "arguments[0].click();",
+	                    taskTypeDropDownArrow);
+
+	    Thread.sleep(1000);
+
+	    WebElement option =
+	            wait.until(
+	                    ExpectedConditions.elementToBeClickable(
+	                            By.xpath(
+	                                    "//*[normalize-space()='"
+	                                            + taskType
+	                                            + "']")));
+
+	    ((JavascriptExecutor) driver)
+	            .executeScript(
+	                    "arguments[0].click();",
+	                    option);
+
+	    System.out.println(
+	            "Task Type Selected : "
+	                    + taskType);
+	}
+	
+	public void selectUserGroup()
+	        throws InterruptedException {
+
+	    ((JavascriptExecutor) driver)
+	            .executeScript(
+	                    "arguments[0].click();",
+	                    userGroupDropDownArrow);
+
+	    WebElement changeManagerOption =
+	            wait.until(
+	                    ExpectedConditions.visibilityOfElementLocated(
+	                            By.xpath(
+	                                    "//*[normalize-space()='Change Manager']")));
+
+	    ((JavascriptExecutor) driver)
+	            .executeScript(
+	                    "arguments[0].click();",
+	                    changeManagerOption);
+
+	    System.out.println(
+	            "User Group Selected : Change Manager");
+	}
 
 	public void clickAddTaskPackage() throws InterruptedException {
 
@@ -281,25 +339,68 @@ public class CreateMilestonePage {
         Thread.sleep(1000);
 	}
 	
-	public void createTaskPackage(String packageName, String packageDesc, String taskName, String taskDesc)
-			throws InterruptedException {
+	public void createTaskPackage(
+	        String packageName,
+	        String packageDesc)
+	        throws InterruptedException {
 
-		wait.until(ExpectedConditions.visibilityOf(taskPackageName));
+	    wait.until(
+	            ExpectedConditions.visibilityOf(
+	                    taskPackageName));
 
-		taskPackageName.clear();
-		taskPackageName.sendKeys(packageName);
+	    taskPackageName.clear();
+	    taskPackageName.sendKeys(packageName);
 
-		taskPackageDescription.clear();
-		taskPackageDescription.sendKeys(packageDesc);
+	    taskPackageDescription.clear();
+	    taskPackageDescription.sendKeys(packageDesc);
 
-		System.out.println("Task Package Created : " + packageName);
-
-		clickAddTask();
-
-		createTask(taskName, taskDesc);
+	    System.out.println(
+	            "Task Package Created : "
+	                    + packageName);
 	}
 	
+	public void createTaskPackage(
+	        HashMap<String, String> input)
+	        throws InterruptedException {
 
+	    wait.until(
+	            ExpectedConditions.visibilityOf(
+	                    taskPackageName));
+
+	    taskPackageName.clear();
+	    taskPackageName.sendKeys(
+	            input.get("TaskPackageName"));
+
+	    taskPackageDescription.clear();
+	    taskPackageDescription.sendKeys(
+	            input.get("TaskPackageDec"));
+
+	    System.out.println(
+	            "Task Package Created : "
+	                    + input.get("TaskPackageName"));
+
+	    clickAddTask();
+
+	    String taskType =
+	            input.get("TaskType");
+
+	    if ("Decision".equalsIgnoreCase(taskType)) {
+
+	        createDecisionTask(
+	                input.get("TaskName"),
+	                input.get("TaskDesc"),
+	                Arrays.asList(
+	                        input.get("Outcomes")
+	                                .split(",")));
+	    }
+	    else {
+
+	        createTask(
+	                input.get("TaskName"),
+	                input.get("TaskDesc"));
+	    }
+	}
+	
 	public void clickAddTask() {
 
 		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("mxui_widget_Progress_0")));
@@ -328,91 +429,43 @@ public class CreateMilestonePage {
 		System.out.println("Task Page Opened Successfully");
 	}
 
-	public void createTask(String taskName, String taskDesc) throws InterruptedException {
+	public void createTask(
+	        String taskName,
+	        String taskDesc)
+	        throws InterruptedException {
 
-		wait.until(ExpectedConditions.visibilityOf(taskNameTxt));
+	    wait.until(
+	            ExpectedConditions.visibilityOf(
+	                    taskNameTxt));
 
-		taskNameTxt.clear();
-		taskNameTxt.sendKeys(taskName);
+	    taskNameTxt.clear();
+	    taskNameTxt.sendKeys(taskName);
 
-		taskDescriptionTxt.click();
-		taskDescriptionTxt.sendKeys(taskDesc);
+	    taskDescriptionTxt.click();
+	    taskDescriptionTxt.sendKeys(taskDesc);
 
-		((JavascriptExecutor) driver).executeScript("window.scrollBy(0,500)");
+	    ((JavascriptExecutor) driver)
+	            .executeScript("window.scrollBy(0,500)");
 
-        Thread.sleep(1000);
+	    Thread.sleep(1000);
 
-		System.out.println("Task Type already populated as Normal");
+	    selectUserGroup();
 
-		// User Group
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});",
-				userGroupDropdown);
+	    wait.until(
+	            ExpectedConditions.elementToBeClickable(
+	                    saveTaskButton));
 
-        Thread.sleep(1000);
+	    saveTaskButton.click();
 
-		((JavascriptExecutor) driver).executeScript("arguments[0].click();", userGroupDropdown);
+	    wait.until(
+	            ExpectedConditions.elementToBeClickable(
+	                    successPopupOkBtn));
 
-		// User Group
-
-		System.out.println("Selecting User Group...");
-
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});",
-				userGroupDropdown);
-
-        Thread.sleep(1000);
-
-		wait.until(ExpectedConditions.elementToBeClickable(userGroupDropdown));
-
-		((JavascriptExecutor) driver).executeScript("arguments[0].click();", userGroupDropdown);
-
-		System.out.println("Selecting User Group...");
-
-		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});",
-				userGroupDropDownArrow);
-
-        Thread.sleep(1000);
-
-		wait.until(ExpectedConditions.elementToBeClickable(userGroupDropDownArrow));
-
-		((JavascriptExecutor) driver).executeScript("arguments[0].click();", userGroupDropDownArrow);
-
-		System.out.println("User Group Dropdown Opened");
-
-		WebElement changeManagerOption = wait.until(
-				ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[normalize-space()='Change Manager']")));
-
-		((JavascriptExecutor) driver).executeScript("arguments[0].click();", changeManagerOption);
-
-		System.out.println("User Group Selected : Change Manager");
-
-		System.out.println("Task Name Value : " + taskNameTxt.getAttribute("value"));
-
-		System.out.println("Before clicking Save Task");
-
-//		wait.until(
-//		        ExpectedConditions.elementToBeClickable(
-//		                saveTaskButton));
-//
-//		((JavascriptExecutor) driver)
-//		        .executeScript(
-//		                "arguments[0].scrollIntoView({block:'center'});",
-//		                saveTaskButton);
-//
-//		Thread.sleep(2000);
-//
-//		Actions actions = new Actions(driver);
-//
-//		actions.moveToElement(saveTaskButton)
-//		       .pause(Duration.ofSeconds(1))
-//		       .click()
-//		       .perform();
-        Thread.sleep(1000);
-		saveTaskButton.click();
-        Thread.sleep(1000);
 	    successPopupOkBtn.click();
-	    System.out.println("Task Success Popup Closed");
-	}
 
+	    System.out.println(
+	            "Normal Task Created Successfully");
+	}
 	public void saveTaskPackageAndMilestone() throws InterruptedException {
 
         Thread.sleep(1000);
@@ -518,6 +571,391 @@ public class CreateMilestonePage {
 //
 //	    System.out.println("Process Cancel Clicked");
 	}
+	public void createDecisionTask(
+	        String taskName,
+	        String taskDesc,
+	        List<String> outcomes)
+	        throws InterruptedException {
+
+	    wait.until(
+	            ExpectedConditions.visibilityOf(
+	                    taskNameTxt));
+
+	    taskNameTxt.clear();
+	    taskNameTxt.sendKeys(taskName);
+
+	    taskDescriptionTxt.click();
+	    taskDescriptionTxt.sendKeys(taskDesc);
+
+	    // Select Task Type = Decision
+	    selectTaskType("Decision");
+
+	    // Select Outcomes
+	    selectOutcomes(outcomes);
+
+	    // User Group
+	    selectUserGroup();
+
+	    saveTaskButton.click();
+
+	    Thread.sleep(1000);
+
+	    successPopupOkBtn.click();
+
+	    System.out.println(
+	            "Decision Task Created");
+	}
+	
+	public void selectOutcomes(
+	        List<String> outcomes)
+	        throws InterruptedException {
+
+	    wait.until(
+	            ExpectedConditions.elementToBeClickable(
+	                    outcomesDropDownArrow));
+
+	    ((JavascriptExecutor) driver)
+	            .executeScript(
+	                    "arguments[0].click();",
+	                    outcomesDropDownArrow);
+
+	    Thread.sleep(1000);
+
+	    for (String outcome : outcomes) {
+
+	        WebElement option =
+	                wait.until(
+	                        ExpectedConditions.visibilityOfElementLocated(
+	                                By.xpath(
+	                                        "//*[normalize-space()='"
+	                                                + outcome
+	                                                + "']")));
+
+	        ((JavascriptExecutor) driver)
+	                .executeScript(
+	                        "arguments[0].click();",
+	                        option);
+
+	        System.out.println(
+	                "Selected Outcome : "
+	                        + outcome);
+
+	        Thread.sleep(500);
+	    }
+
+	    // Close dropdown
+	    ((JavascriptExecutor) driver)
+	            .executeScript(
+	                    "arguments[0].click();",
+	                    outcomesDropDownArrow);
+
+	    System.out.println(
+	            "Outcome Selection Completed");
+	}
+	
+	public void selectNotificationType(
+	        String notificationType)
+	        throws InterruptedException {
+
+	    wait.until(
+	            ExpectedConditions.elementToBeClickable(
+	                    notificationTypeDropDownArrow));
+
+	    ((JavascriptExecutor) driver)
+	            .executeScript(
+	                    "arguments[0].click();",
+	                    notificationTypeDropDownArrow);
+
+	    Thread.sleep(1000);
+
+	    WebElement option =
+	            wait.until(
+	                    ExpectedConditions.elementToBeClickable(
+	                            By.xpath(
+	                                    "//*[normalize-space()='"
+	                                            + notificationType
+	                                            + "']")));
+
+	    ((JavascriptExecutor) driver)
+	            .executeScript(
+	                    "arguments[0].click();",
+	                    option);
+
+	    System.out.println(
+	            "Notification Type Selected : "
+	                    + notificationType);
+	}
+	
+	public void clearMilestoneName() {
+
+	    wait.until(ExpectedConditions.visibilityOf(
+	            MilestoneNameInProcess));
+
+	    MilestoneNameInProcess.clear();
+
+	    System.out.println("Milestone Name Cleared");
+	}
+
+	public void clearDescription() {
+
+	    wait.until(ExpectedConditions.visibilityOf(MilestoneDescInProcess));
+	    MilestoneDescInProcess.clear();
+	}
+
+	public void clearOrder() {
+
+	    wait.until(ExpectedConditions.visibilityOf(milestoneOrderTxt));
+	    milestoneOrderTxt.clear();
+	}
+	
+	public void enterMilestoneDescription(String description) {
+
+	    wait.until(ExpectedConditions.visibilityOf(
+	            milestoneDescription));
+
+	    milestoneDescription.clear();
+	    milestoneDescription.sendKeys(description);
+
+	    System.out.println("Milestone Description : "
+	            + description);
+	}
+
+	public void enterMilestoneOrder(String order) {
+
+	    wait.until(ExpectedConditions.visibilityOf(
+	            milestoneOrderTxt));
+
+	    milestoneOrderTxt.clear();
+	    milestoneOrderTxt.sendKeys(order);
+
+	    System.out.println(
+	            "Milestone Order : " + order);
+	}
+
+
+	public void saveAsDraft() {
+
+	    wait.until(
+	            ExpectedConditions.elementToBeClickable(
+	                    saveAsDraftButton));
+
+	    ((JavascriptExecutor) driver)
+	            .executeScript(
+	                    "arguments[0].click();",
+	                    saveAsDraftButton);
+
+	    System.out.println(
+	            "Save As Draft Clicked");
+	}
+	
+
+	public void publish() {
+
+	    wait.until(ExpectedConditions.elementToBeClickable(publishMilestoneBtn));
+	    publishMilestoneBtn.click();
+	}
+	public void enterMilestoneName(String name) {
+
+	    wait.until(ExpectedConditions.visibilityOf(
+	            MilestoneNameInProcess));
+
+	    MilestoneNameInProcess.clear();
+	    MilestoneNameInProcess.sendKeys(name);
+
+	    System.out.println("Milestone Name : " + name);
+	}
+	
+	public void saveMilestone(String order) {
+
+	    wait.until(ExpectedConditions.visibilityOf(
+	    		milestoneOrderTxt));
+
+	    milestoneOrderTxt.clear();
+	    milestoneOrderTxt.sendKeys(order);
+
+	    System.out.println("Milestone Order : "
+	            + order);
+	}
+	
+	public void clearMilestoneDescription() {
+
+	    wait.until(ExpectedConditions.visibilityOf(
+	            MilestoneDescInProcess));
+
+	    MilestoneDescInProcess.clear();
+
+	    System.out.println("Milestone Description Cleared");
+	}
+	public void clickSaveForValidation() {
+
+	    wait.until(
+	            ExpectedConditions.elementToBeClickable(
+	                    saveMilestoneBtn));
+
+	    ((JavascriptExecutor) driver)
+	            .executeScript(
+	                    "arguments[0].click();",
+	                    saveMilestoneBtn);
+
+	    System.out.println(
+	            "Save Clicked For Validation");
+	}
+	
+	public void clearTaskPackageName() {
+
+	    wait.until(ExpectedConditions.visibilityOf(
+	            taskPackageName));
+
+	    taskPackageName.clear();
+
+	    System.out.println(
+	            "Task Package Name Cleared");
+	}
+	
+	public void enterTaskPackageName(
+	        String name) {
+
+	    wait.until(ExpectedConditions.visibilityOf(
+	            taskPackageName));
+
+	    taskPackageName.clear();
+	    taskPackageName.sendKeys(name);
+
+	    System.out.println(
+	            "Task Package Name : " + name);
+	}
+	
+	public void clearTaskPackageDescription() {
+
+	    wait.until(ExpectedConditions.visibilityOf(
+	            taskPackageDescription));
+
+	    taskPackageDescription.clear();
+
+	    System.out.println(
+	            "Task Package Description Cleared");
+	}
+	
+	public void enterTaskPackageDescription(
+	        String description) {
+
+	    wait.until(ExpectedConditions.visibilityOf(
+	            taskPackageDescription));
+
+	    taskPackageDescription.clear();
+	    taskPackageDescription.sendKeys(description);
+
+	    System.out.println(
+	            "Task Package Description : "
+	                    + description);
+	}
+	
+	public void clickSaveTaskPackageForValidation() {
+
+	    wait.until(
+	            ExpectedConditions.elementToBeClickable(
+	                    saveTaskPackageBtn));
+
+	    ((JavascriptExecutor) driver)
+	            .executeScript(
+	                    "arguments[0].click();",
+	                    saveTaskPackageBtn);
+
+	    System.out.println(
+	            "Task Package Save Clicked");
+	}
+	
+	public void clearTaskName() {
+
+	    wait.until(
+	            ExpectedConditions.visibilityOf(
+	                    taskNameTxt));
+
+	    taskNameTxt.clear();
+
+	    System.out.println("Task Name Cleared");
+	}
+	
+	public void enterTaskName(String taskName) {
+
+	    wait.until(
+	            ExpectedConditions.visibilityOf(
+	                    taskNameTxt));
+
+	    taskNameTxt.clear();
+
+	    taskNameTxt.sendKeys(taskName);
+
+	    System.out.println("Task Name : " + taskName);
+	}public void clearTaskDescription() {
+
+	    ((JavascriptExecutor) driver)
+	            .executeScript(
+	                    "arguments[0].innerHTML='';",
+	                    taskDescriptionTxt);
+
+	    System.out.println(
+	            "Task Description Cleared");
+	}public void enterTaskDescription(
+	        String description) {
+
+	    wait.until(
+	            ExpectedConditions.visibilityOf(
+	                    taskDescriptionTxt));
+
+	    taskDescriptionTxt.click();
+
+	    taskDescriptionTxt.sendKeys(description);
+
+	    System.out.println(
+	            "Task Description : "
+	                    + description);
+	}public void clickSaveTaskForValidation() {
+
+	    wait.until(
+	            ExpectedConditions.elementToBeClickable(
+	                    saveTaskButton));
+
+	    ((JavascriptExecutor) driver)
+	            .executeScript(
+	                    "arguments[0].click();",
+	                    saveTaskButton);
+
+	    System.out.println(
+	            "Task Save Clicked");
+	}
+	
+	public void clearTaskType() {
+
+	    WebElement clearIcon =
+	            wait.until(
+	                    ExpectedConditions.elementToBeClickable(
+	                            By.xpath(
+	                                    "//label[contains(text(),'Task Type')]"
+	                                    + "/following::*[contains(@class,'mx-icon-clear')][1]")));
+
+	    clearIcon.click();
+
+	    System.out.println(
+	            "Task Type Cleared");
+	}
+	
+	public void clickOkButton() {
+
+	    wait.until(
+	            ExpectedConditions.elementToBeClickable(
+	                    successPopupOkBtn));
+
+	    ((JavascriptExecutor) driver)
+	            .executeScript(
+	                    "arguments[0].click();",
+	                    successPopupOkBtn);
+
+	    System.out.println(
+	            "OK Button Clicked");
+	}
+
+	
 	
 
 }

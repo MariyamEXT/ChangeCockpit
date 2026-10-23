@@ -43,7 +43,10 @@ public class CreateTaskPackagePage {
 
     @FindBy(xpath = "//button[contains(@class,'BTN_Milestone_NE_SelectTP')]")
     WebElement addTaskPackageButton;
-
+    
+    @FindBy(xpath = "//button[@data-button-id='p.MasterData.TaskPackage_NewEdit_2.BTN_TP_NE_Save']")
+    WebElement saveTaskPackageBtn;
+    
     public void goToNewTaskPackagePage() {
 
         wait.until(
@@ -106,4 +109,23 @@ public class CreateTaskPackagePage {
 
         return tpName;
     }
+    
+    public void clearTaskPackageName() {
+
+        wait.until(ExpectedConditions.visibilityOf(taskPackageName));
+        taskPackageName.clear();
+    }
+
+    public void clearTaskPackageDescription() {
+
+        wait.until(ExpectedConditions.visibilityOf(taskPackageDescription));
+        taskPackageDescription.clear();
+    }
+
+    public void saveTaskPackage() {
+
+        wait.until(ExpectedConditions.elementToBeClickable(saveTaskPackageBtn));
+        saveTaskPackageBtn.click();
+    }
+    
 }

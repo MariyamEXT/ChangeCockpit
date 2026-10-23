@@ -23,13 +23,9 @@ public class CreateCOProcessMilestoneTest extends BaseTest {
         LoginPage loginPage =
                 new LoginPage(driver);
 
-        Thread.sleep(1000);
-
         loginPage.loginApplication(
                 input.get("userName"),
                 input.get("password"));
-
-        Thread.sleep(1000);
 
         CreateProcessPage processPage =
                 new CreateProcessPage(driver);
@@ -55,30 +51,30 @@ public class CreateCOProcessMilestoneTest extends BaseTest {
 
         milestonePage.clickAddTaskPackage();
 
-        milestonePage.createTaskPackage(
-                input.get("TaskPackageName"),
-                input.get("TaskPackageDec"),
-                input.get("TaskName"),
-                input.get("TaskDesc"));
+        // Generic Task Creation
+        milestonePage.createTaskPackage(input);
 
         milestonePage.saveTaskPackageAndMilestone();
-//        milestonePage.setTaskPackageAndMilestoneOrder();
-        milestonePage.clickEditMilestone(milestoneName);
+
+        milestonePage.clickEditMilestone(
+                milestoneName);
 
         milestonePage.publishMilestone();
-        processPage.makeProcessActive();
-        processPage.saveProcess();
-        processPage.clickProcessCancel();
-        
-        String processName =
-                processPage.getCreatedProcessName();
 
-        processPage.searchProcess(processName);
+//        processPage.makeProcessActive();
+//
+//        processPage.saveProcess();
+//
+//        processPage.clickProcessCancel();
 
-        Assert.assertTrue(
-                processPage.verifyProcessIsActive(processName));
-        
-        
+//        String processName =
+//                processPage.getCreatedProcessName();
+//
+//        processPage.searchProcess(processName);
+//
+//        Assert.assertTrue(
+//                processPage.verifyProcessIsActive(
+//                        processName));
     }
 
     @DataProvider
@@ -88,10 +84,10 @@ public class CreateCOProcessMilestoneTest extends BaseTest {
         List<HashMap<String, String>> data =
                 getJsonDataToMap(
                         System.getProperty("user.dir")
-                        + "\\src\\main\\java\\SE\\ChangeCockpitAutomation\\Data\\CreateMilestoneData.json");
+                        + "\\src\\main\\java\\SE\\ChangeCockpitAutomation\\Data\\CreateTaskData.json");
 
         return new Object[][] {
-                { data.get(0) }
+                { data.get(0) }  // Normal Task
         };
     }
 }

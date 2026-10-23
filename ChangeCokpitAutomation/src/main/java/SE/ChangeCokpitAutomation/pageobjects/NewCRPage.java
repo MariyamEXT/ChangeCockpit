@@ -97,7 +97,7 @@ public class NewCRPage {
                         + processName);
     }
 
-    public void selectChangeReason() {
+    public void selectChangeReason(String reason) {
 
         wait.until(
                 ExpectedConditions.elementToBeClickable(
@@ -109,15 +109,18 @@ public class NewCRPage {
                 wait.until(
                         ExpectedConditions.elementToBeClickable(
                                 By.xpath(
-                                        "//*[contains(text(),'Prio 1: EHS')]")));
+                                        "//*[contains(text(),'"
+                                                + reason
+                                                + "')]")));
 
         option.click();
 
         System.out.println(
-                "Change Reason Selected");
+                "Change Reason Selected : "
+                        + reason);
     }
 
-    public void selectChangeUrgency() {
+    public void selectChangeUrgency(String urgency) {
 
         wait.until(
                 ExpectedConditions.elementToBeClickable(
@@ -129,24 +132,30 @@ public class NewCRPage {
                 wait.until(
                         ExpectedConditions.elementToBeClickable(
                                 By.xpath(
-                                        "//*[contains(text(),'High')]")));
+                                        "//*[contains(text(),'"
+                                                + urgency
+                                                + "')]")));
 
         option.click();
 
         System.out.println(
-                "Change Urgency Selected");
+                "Change Urgency Selected : "
+                        + urgency);
     }
 
-    public void enterDescription() {
+    public void enterDescription(String description) {
 
         wait.until(
                 ExpectedConditions.visibilityOf(
                         descriptionTxt));
 
-        descriptionTxt.sendKeys(
-                "Automation Change Request Description");
+        descriptionTxt.clear();
+
+        descriptionTxt.sendKeys(description);
 
         System.out.println(
-                "Description Entered");
+                "Description Entered : "
+                        + description);
     }
+    
 }

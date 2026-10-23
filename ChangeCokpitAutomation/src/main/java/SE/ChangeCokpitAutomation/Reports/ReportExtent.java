@@ -24,12 +24,16 @@ public class ReportExtent {
         extent.attachReporter(reporter);
 
         extent.setSystemInfo("Tester", "Swapnil Kedar");
-        extent.setSystemInfo("Environment", "QA");
-        extent.setSystemInfo("Browser", "Chrome");
+        extent.setSystemInfo("Application", "Change Cockpit");
+        extent.setSystemInfo("Environment", "Acceptance");
+        extent.setSystemInfo("Browser", "Firefox");
         extent.setSystemInfo("Framework", "Selenium + TestNG");
         extent.setSystemInfo("Java Version", System.getProperty("java.version"));
-        System.out.println("Extent Report Path : " + path);
+        extent.setSystemInfo("OS", System.getProperty("os.name"));
+        extent.setSystemInfo("Execution", "Regression Suite");
         
         return extent;
     }
+    
+    
 }

@@ -68,8 +68,7 @@ public class CreateProcessPage {
 	
 	@FindBy(xpath = "(//input[contains(@class,'filter-input')])[1]")
 	WebElement processNameFilter;
-	
-	
+		
 	public void goToProcessesPage() throws InterruptedException {
 
 		wait.until(ExpectedConditions.visibilityOf(MasterData));
@@ -99,7 +98,7 @@ public class CreateProcessPage {
 	    wait.until(ExpectedConditions.visibilityOf(processName));
 
 	    createdProcessName =
-	            processPrefix + System.currentTimeMillis();
+	            processPrefix + System.currentTimeMillis() % 100000;
 
 	    processName.sendKeys(createdProcessName);
 
@@ -122,23 +121,29 @@ public class CreateProcessPage {
 
 	    selectUserGroup(userGroup);
 
-	    saveButton.click();
-
 	    wait.until(
-	            ExpectedConditions.visibilityOf(
-	                    addMilestoneButton));
+	            ExpectedConditions.elementToBeClickable(
+	                    saveButton));
+	    
+	    saveButton.click();
+	    
 	}
+	
 	public void selectUserGroup(String userGroup) {
 
-		wait.until(ExpectedConditions.elementToBeClickable(assignUserGroupsContainer));
+	    wait.until(ExpectedConditions.elementToBeClickable(assignUserGroupsContainer));
 
-		assignUserGroupsContainer.click();
+	    assignUserGroupsContainer.click();
 
-		WebElement option = driver.findElement(org.openqa.selenium.By.xpath("//li[contains(.,'" + userGroup + "')]"));
+	    WebElement option = driver.findElement(
+	            By.xpath("//li[contains(.,'" + userGroup + "')]"));
 
-		wait.until(ExpectedConditions.elementToBeClickable(option));
+	    wait.until(ExpectedConditions.elementToBeClickable(option));
 
-		option.click();
+	    option.click();
+
+	    // Close dropdown
+	    assignUserGroupsContainer.sendKeys(Keys.ESCAPE);
 	}
 
 	public void clickAddMilestone() {
@@ -153,6 +158,7 @@ public class CreateProcessPage {
 
 		System.out.println("Clicked Add Milestone");
 	}
+	
 	public void createChangeOrderProcess()
 	        throws InterruptedException {
 
@@ -252,7 +258,8 @@ public class CreateProcessPage {
 	            .executeScript("arguments[0].click();", processCancelBtn);
 
 	    System.out.println("Process Cancel Clicked");
-	}	
+	}
+	
 	public void searchProcess(String processName)
 	        throws InterruptedException {
 
@@ -260,17 +267,6 @@ public class CreateProcessPage {
 	            ExpectedConditions.visibilityOf(
 	                    processNameFilter));
 
-	    processNameFilter.clear();
-
-	    processNameFilter.sendKeys(processName);
-
-	    // Trigger the grid search
-	    processNameFilter.sendKeys(Keys.TAB);
-
-	    Thread.sleep(3000);
-
-	    System.out.println(
-	            "Process Searched : " + processName);
 
 	    System.out.println(
 	            "Rows Found : "
@@ -315,6 +311,7 @@ public class CreateProcessPage {
 
 	    return activeRows.size() > 0;
 	}
+	
 	public boolean isProcessActive() {
 
 	    WebElement toggle =
@@ -329,5 +326,29 @@ public class CreateProcessPage {
 	    return createdProcessName;
 	}
 	
-	
+	public void clearProcessName() {
+
+	    wait.until(ExpectedConditions.visibilityOf(processName));
+
+	    processName.clear();
+	}
+	public void clearProcessAbbreviation() {
+
+	    wait.until(
+	            ExpectedConditions.visibilityOf(
+	                    abbreviation));
+
+	    abbreviation.clear();
+	}
+	public void clickSaveForValidation() {
+
+	    wait.until(
+	            ExpectedConditions.elementToBeClickable(
+	                    saveButton));
+
+	    ((JavascriptExecutor) driver)
+	            .executeScript(
+	                    "arguments[0].click();",
+	                    saveButton);
+	}
 }

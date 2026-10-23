@@ -1,10 +1,21 @@
 [
   {
-    "TaskPackageName": "TaskPackageName",
-    "TaskPackageDec": "TaskPackageDesc",
-    "TaskName": "AutomationTask",
-    "TaskDesc": "AutomationTaskDescription",
-    "TaskType": "Normal",
-    "UserGroup": "Change Manager"
+    "userName":"automationadmin",
+    "password":"AutomationAdmin@123",
+    "TaskPackageName":"TaskPackageName",
+    "TaskPackageDec":"TaskPackageDesc",
+    "TaskName":"AutomationTask",
+    "TaskDesc":"Task Description",
+    "TaskType":"Normal"
+  },
+  {
+    "userName":"automationadmin",
+    "password":"AutomationAdmin@123",
+    "TaskPackageName":"TaskPackageName",
+    "TaskPackageDec":"TaskPackageDesc",
+    "TaskName":"AutomationDecisionTask",
+    "TaskDesc":"Decision Task Description",
+    "TaskType":"Decision",
+    "Outcomes":"without rework,rework,scrapping"
   }
 ]

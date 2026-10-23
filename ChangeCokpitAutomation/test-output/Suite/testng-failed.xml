@@ -6,13 +6,13 @@
   </listeners>
   <test thread-count="5" name="MasterDataTest(failed)">
     <classes>
-      <class name="SE.ChangeCokpitAutomation.Tests.CreateCrProcessTest">
+      <class name="SE.ChangeCokpitAutomation.Tests.CreateCOProcessMilestoneTest">
         <methods>
           <include name="tearDown"/>
+          <include name="createCOProcessMilestoneFlow" invocation-numbers="0"/>
           <include name="launchApplication"/>
-          <include name="createCrProcess"/>
         </methods>
-      </class> <!-- SE.ChangeCokpitAutomation.Tests.CreateCrProcessTest -->
+      </class> <!-- SE.ChangeCokpitAutomation.Tests.CreateCOProcessMilestoneTest -->
     </classes>
   </test> <!-- MasterDataTest(failed) -->
 </suite> <!-- Failed suite [Suite] -->
