@@ -167,7 +167,7 @@ public class CreateMilestonePage {
 	@FindBy(xpath = "//button[normalize-space()='OK']")
 	WebElement successPopupOkBtn;
 
-	@FindBy(xpath = "//button[contains(@class,'BTN_Milestone_NE_Publish')]")
+	@FindBy(xpath = "//button[contains(@class,'BTN_Milestone_NE_Publish...')]")
 	WebElement publishMilestoneBtn;
 
 	@FindBy(xpath="//button[normalize-space()='Proceed']")
