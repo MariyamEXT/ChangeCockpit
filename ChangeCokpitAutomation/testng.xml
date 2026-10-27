@@ -1,15 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
 <suite name="Suite">
 
-	<listeners>
-		<listener
-			class-name="SE.ChangeCokpitAutomation.TestComponents.Listeners" />
-	</listeners>
+    <listeners>
+        <listener class-name="SE.ChangeCokpitAutomation.TestComponents.Listeners"/>
+    </listeners>
 
-	<test name="MasterDataTest">
-		<classes>
-			<class name="SE.ChangeCokpitAutomation.Tests.CreateCrProcessTest" />
-		</classes>
-	</test>
+    <test name="MasterDataTest">
+        <classes>
+
+            <!--<class name="SE.ChangeCokpitAutomation.Tests.CRProcessCreationTest"/>-->
+            <class name="SE.ChangeCokpitAutomation.Tests.COProcessCreationTest"/>
+            <class name="SE.ChangeCokpitAutomation.Tests.COProcessWithMilestoneTest"/>
+
+        </classes>
+    </test>
+
 </suite>

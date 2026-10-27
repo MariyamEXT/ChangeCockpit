@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
-  <test thread-count="5" name="Default test(failed)">
+<suite name="Failed suite [Suite]">
+  <listeners>
+    <listener class-name="SE.ChangeCokpitAutomation.TestComponents.Listeners"/>
+  </listeners>
+  <test thread-count="5" name="MasterDataTest(failed)">
     <classes>
       <class name="SE.ChangeCokpitAutomation.Tests.CreateCOProcessMilestoneTest">
         <methods>
@@ -10,6 +13,13 @@
           <include name="launchApplication"/>
         </methods>
       </class> <!-- SE.ChangeCokpitAutomation.Tests.CreateCOProcessMilestoneTest -->
+      <class name="SE.ChangeCokpitAutomation.Tests.CreateCOProcessTest">
+        <methods>
+          <include name="tearDown"/>
+          <include name="launchApplication"/>
+          <include name="createCOProcess"/>
+        </methods>
+      </class> <!-- SE.ChangeCokpitAutomation.Tests.CreateCOProcessTest -->
     </classes>
-  </test> <!-- Default test(failed) -->
-</suite> <!-- Failed suite [Default suite] -->
+  </test> <!-- MasterDataTest(failed) -->
+</suite> <!-- Failed suite [Suite] -->

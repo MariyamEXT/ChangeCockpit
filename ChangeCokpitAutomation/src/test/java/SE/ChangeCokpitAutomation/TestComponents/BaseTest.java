@@ -2,9 +2,7 @@ package SE.ChangeCokpitAutomation.TestComponents;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.HashMap;
@@ -12,6 +10,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -28,212 +27,234 @@ import org.testng.annotations.BeforeMethod;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import SE.ChangeCokpitAutomation.pageobjects.LoginPage;
+import SE.ChangeCokpitAutomation.pageobjects.common.LoginPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class BaseTest {
 
-    public WebDriver driver;
-    public LoginPage login;
+	public WebDriver driver;
+	public LoginPage login;
 
-    public Properties getFileObj() throws IOException {
+	public Properties getFileObj() throws IOException {
 
-        Properties prop = new Properties();
-        
+		Properties prop = new Properties();
 
-        String filePath = System.getProperty("user.dir")
-                + "\\src\\main\\resources\\SE\\ChangeCokpitAutomation\\Data\\data.properties";
+		String filePath = System.getProperty("user.dir")
+				+ "\\src\\main\\resources\\SE\\ChangeCokpitAutomation\\Data\\data.properties";
 
-        System.out.println("File Path = " + filePath);
+		System.out.println("File Path = " + filePath);
 
-        File file = new File(filePath);
+		File file = new File(filePath);
 
-        System.out.println("File Exists = " + file.exists());
+		System.out.println("File Exists = " + file.exists());
 
-        FileInputStream fs = new FileInputStream(file);
+		FileInputStream fs = new FileInputStream(file);
 
-        prop.load(fs);
+		prop.load(fs);
 
-        System.out.println("Browser Property = " + prop.getProperty("browser"));
-        System.out.println("URL Property = " + prop.getProperty("url"));
+		System.out.println("Browser Property = " + prop.getProperty("browser"));
+		System.out.println("URL Property = " + prop.getProperty("url"));
 
-        return prop;
-    }
-    
-    public WebDriver initializeDriver() throws IOException {
+		return prop;
+	}
 
-        System.out.println("Inside initializeDriver()");
+	public WebDriver initializeDriver() throws IOException {
 
-        Properties prop = getFileObj();
+		System.out.println("Inside initializeDriver()");
 
-        System.out.println("Properties Loaded Successfully");
+		Properties prop = getFileObj();
 
-        String browserName = prop.getProperty("browser");
+		System.out.println("Properties Loaded Successfully");
 
-        System.out.println("Browser Name = " + browserName);
+		String browserName = prop.getProperty("browser");
 
-        if (browserName == null || browserName.trim().isEmpty()) {
-            throw new RuntimeException("Browser value not found in data.properties");
-        }
+		System.out.println("Browser Name = " + browserName);
 
-        System.out.println("Launching Browser : " + browserName);
+		if (browserName == null || browserName.trim().isEmpty()) {
+			throw new RuntimeException("Browser value not found in data.properties");
+		}
 
-        if (browserName.equalsIgnoreCase("chrome")) {
+		System.out.println("Launching Browser : " + browserName);
 
-            WebDriverManager.chromedriver().setup();
+		if (browserName.equalsIgnoreCase("chrome")) {
 
-            ChromeOptions chromeOptions = new ChromeOptions();
+			WebDriverManager.chromedriver().setup();
 
-            chromeOptions.addArguments("--remote-allow-origins=*");
-            chromeOptions.addArguments("--start-maximized");
+			ChromeOptions chromeOptions = new ChromeOptions();
 
-            System.out.println("Creating Chrome Driver");
+			chromeOptions.addArguments("--remote-allow-origins=*");
+			chromeOptions.addArguments("--start-maximized");
 
-            try {
-                driver = new ChromeDriver(chromeOptions);
-                System.out.println("Chrome Driver Created");
-            }
-            catch (Throwable e) {
-                System.out.println("ERROR OCCURRED");
-                e.printStackTrace();
-                throw e;
-            }
+			System.out.println("Creating Chrome Driver");
 
-            System.out.println("Chrome Driver Created");
+			try {
+				driver = new ChromeDriver(chromeOptions);
+				System.out.println("Chrome Driver Created");
+			} catch (Throwable e) {
+				System.out.println("ERROR OCCURRED");
+				e.printStackTrace();
+				throw e;
+			}
 
-        }
+			System.out.println("Chrome Driver Created");
 
-        else if (browserName.equalsIgnoreCase("edge")) {
+		}
 
-            System.setProperty(
-                "webdriver.edge.driver",
-                "C:\\Drivers\\msedgedriver.exe");
+		else if (browserName.equalsIgnoreCase("edge")) {
 
-            EdgeOptions edgeOptions = new EdgeOptions();
+			System.setProperty("webdriver.edge.driver", "C:\\Drivers\\msedgedriver.exe");
 
-            edgeOptions.addArguments("--remote-allow-origins=*");
-            edgeOptions.addArguments("--disable-dev-shm-usage");
-            edgeOptions.addArguments("--no-sandbox");
-            edgeOptions.addArguments("--start-maximized");
+			EdgeOptions edgeOptions = new EdgeOptions();
 
-            driver = new EdgeDriver(edgeOptions);
-        }
+			edgeOptions.addArguments("--remote-allow-origins=*");
+			edgeOptions.addArguments("--disable-dev-shm-usage");
+			edgeOptions.addArguments("--no-sandbox");
+			edgeOptions.addArguments("--start-maximized");
 
-        else if (browserName.equalsIgnoreCase("firefox")) {
+			driver = new EdgeDriver(edgeOptions);
+		}
 
-            File firefoxFile = new File("C:\\Program Files\\Mozilla Firefox\\firefox.exe");
-            System.out.println("Firefox Exists = " + firefoxFile.exists());
+		else if (browserName.equalsIgnoreCase("firefox")) {
 
-            WebDriverManager.firefoxdriver().setup();
+			File firefoxFile = new File("C:\\Program Files\\Mozilla Firefox\\firefox.exe");
+			System.out.println("Firefox Exists = " + firefoxFile.exists());
 
-            FirefoxOptions firefoxOptions = new FirefoxOptions();
+			WebDriverManager.firefoxdriver().setup();
 
-            System.out.println("Creating Firefox Driver");
+			FirefoxOptions firefoxOptions = new FirefoxOptions();
 
-            try {
-                driver = new FirefoxDriver(firefoxOptions);
+			System.out.println("Creating Firefox Driver");
 
-                driver.manage().window().maximize();
+			try {
+				driver = new FirefoxDriver(firefoxOptions);
 
-                driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+				driver.manage().window().maximize();
 
-                System.out.println("Firefox Driver Created");
-            }
-            catch (Throwable e) {
-                System.out.println("ERROR OCCURRED");
-                e.printStackTrace();
-                throw e;
-            }
-        }
+				((JavascriptExecutor) driver)
+				        .executeScript(
+				                "document.body.style.zoom='80%'");
 
-        else {
+				driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
-            throw new RuntimeException("Unsupported Browser : " + browserName);
-        }
+				System.out.println("Firefox Driver Created");
+			} catch (Throwable e) {
+				System.out.println("ERROR OCCURRED");
+				e.printStackTrace();
+				throw e;
+			}
+		}
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		else {
 
-        return driver;
-    }
+			throw new RuntimeException("Unsupported Browser : " + browserName);
+		}
 
-    @BeforeMethod(alwaysRun = true)
-    public LoginPage launchApplication() throws IOException {
-    	
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
-        System.out.println("Step 1 : Initializing Driver");
+		return driver;
+	}
 
-        driver = initializeDriver();
+	@BeforeMethod(alwaysRun = true)
+	public LoginPage launchApplication() throws IOException {
 
-        System.out.println("Step 2 : Driver Initialized");
+		System.out.println("Step 1 : Initializing Driver");
 
-        login = new LoginPage(driver);
+		driver = initializeDriver();
 
-        System.out.println("Step 3 : Login Page Object Created");
+		System.out.println("Step 2 : Driver Initialized");
 
-        Properties prop = getFileObj();
+		login = new LoginPage(driver);
 
-        String urlName = prop.getProperty("url");
+		System.out.println("Step 3 : Login Page Object Created");
 
-        System.out.println("Step 4 : URL Value = [" + urlName + "]");
+		Properties prop = getFileObj();
 
-        driver.get(urlName);
-        System.out.println("URL from properties = " + urlName);
-        driver.get(urlName);
-        System.out.println("Current URL = " + driver.getCurrentUrl());
-        System.out.println("Step 5 : Navigation completed");
+		String urlName = prop.getProperty("url");
 
-        System.out.println("Current URL = " + driver.getCurrentUrl());
-        
-        return login;
-    }
+		System.out.println("Step 4 : URL Value = [" + urlName + "]");
 
-    @AfterMethod(alwaysRun = true)
-    public void tearDown() {
+		driver.get(urlName);
+		System.out.println("URL from properties = " + urlName);
+		driver.get(urlName);
+		System.out.println("Current URL = " + driver.getCurrentUrl());
+		System.out.println("Step 5 : Navigation completed");
 
-        if (driver != null) {
-            driver.quit();
-        }
-    }
+		System.out.println("Current URL = " + driver.getCurrentUrl());
 
-    public List<HashMap<String, String>> getJsonDataToMap(String filePath) throws IOException {
+		return login;
+	}
 
-        String jsonContent = FileUtils.readFileToString(
-                new File(filePath),
-                StandardCharsets.UTF_8);
+	@AfterMethod(alwaysRun = true)
+	public void tearDown() {
 
-        ObjectMapper mapper = new ObjectMapper();
+		if (driver != null) {
+			driver.quit();
+		}
+	}
 
-        List<HashMap<String, String>> data = mapper.readValue(
-                jsonContent,
-                new TypeReference<List<HashMap<String, String>>>() {
-                });
+	public List<HashMap<String, String>> getJsonDataToMap(String filePath) throws IOException {
 
-        return data;
-    }
+		String jsonContent = FileUtils.readFileToString(new File(filePath), StandardCharsets.UTF_8);
 
-    public String getScreenshot(String testCaseName, WebDriver driver) throws IOException {
+		ObjectMapper mapper = new ObjectMapper();
 
-        TakesScreenshot ts = (TakesScreenshot) driver;
+		List<HashMap<String, String>> data = mapper.readValue(jsonContent,
+				new TypeReference<List<HashMap<String, String>>>() {
+				});
 
-        File source = ts.getScreenshotAs(OutputType.FILE);
+		return data;
+	}
 
-        String destinationFile = System.getProperty("user.dir")
-                + "\\reports\\"
-                + testCaseName
-                + ".png";
+	public String getScreenshot(String testCaseName, WebDriver driver) throws IOException {
 
-        FileUtils.copyFile(source, new File(destinationFile));
+		if (driver == null) {
 
-        return destinationFile;
-    }
-    public void validatePageTitleContains(String expectedTitle) {
+			System.out.println("Driver is null. Screenshot cannot be captured.");
 
-        String actualTitle = driver.getTitle();
+			return "";
+		}
 
-        System.out.println("Actual Page Title = " + actualTitle);
+		TakesScreenshot ts = (TakesScreenshot) driver;
 
-        Assert.assertTrue(
-                actualTitle.contains(expectedTitle),
-                "Page title does not contain : " + expectedTitle);
-    }
+		File source = ts.getScreenshotAs(OutputType.FILE);
+
+		String destinationFile = System.getProperty("user.dir") + "\\reports\\" + testCaseName + ".png";
+
+		FileUtils.copyFile(source, new File(destinationFile));
+
+		return destinationFile;
+	}
+
+	public void validatePageTitleContains(String expectedTitle) {
+
+		String actualTitle = driver.getTitle();
+
+		System.out.println("Actual Page Title = " + actualTitle);
+
+		Assert.assertTrue(actualTitle.contains(expectedTitle), "Page title does not contain : " + expectedTitle);
+	}
+	public String captureScreenshot(
+	        String testCaseName)
+	        throws IOException {
+
+	    TakesScreenshot ts =
+	            (TakesScreenshot) driver;
+
+	    File source =
+	            ts.getScreenshotAs(
+	                    OutputType.FILE);
+
+	    String filePath =
+	            System.getProperty(
+	                    "user.dir")
+	            + "/reports/screenshots/"
+	            + testCaseName
+	            + ".png";
+
+	    FileUtils.copyFile(
+	            source,
+	            new File(filePath));
+
+	    return filePath;
+	}
 }

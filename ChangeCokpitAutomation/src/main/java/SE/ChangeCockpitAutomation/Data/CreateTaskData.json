@@ -1,10 +1,25 @@
 [
   {
-    "TaskPackageName": "TaskPackageName",
-    "TaskPackageDec": "TaskPackageDesc",
-    "TaskName": "AutomationTask",
-    "TaskDesc": "AutomationTaskDescription",
+    "TaskPackageName": "TP_Normal",
+    "TaskPackageDec": "Package for normal task",
     "TaskType": "Normal",
-    "UserGroup": "Change Manager"
+    "TaskName": "Normal Task",
+    "TaskDesc": "This is a normal task"
+  },
+  {
+    "TaskPackageName": "TP_Decision",
+    "TaskPackageDec": "Package for decision task",
+    "TaskType": "Decision",
+    "TaskName": "Decision Task",
+    "TaskDesc": "Select outcome",
+    "Outcomes": "without rework, rework, as before"
+  },
+  {
+    "TaskPackageName": "TP_Notification",
+    "TaskPackageDec": "Package for notification task",
+    "TaskType": "Notification",
+    "TaskName": "Notification Task",
+    "TaskDesc": "Send notification",
+    "NotificationType": "Standard Task"
   }
 ]
