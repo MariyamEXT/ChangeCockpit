@@ -2,9 +2,7 @@ package SE.ChangeCokpitAutomation.TestComponents;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.HashMap;
@@ -29,7 +27,7 @@ import org.testng.annotations.BeforeMethod;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import SE.ChangeCokpitAutomation.pageobjects.LoginPage;
+import SE.ChangeCokpitAutomation.pageobjects.common.LoginPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class BaseTest {

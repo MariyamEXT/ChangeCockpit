@@ -1,21 +1,25 @@
 [
   {
-    "userName":"automationadmin",
-    "password":"AutomationAdmin@123",
-    "TaskPackageName":"TaskPackageName",
-    "TaskPackageDec":"TaskPackageDesc",
-    "TaskName":"AutomationTask",
-    "TaskDesc":"Task Description",
-    "TaskType":"Normal"
+    "TaskPackageName": "TP_Normal",
+    "TaskPackageDec": "Package for normal task",
+    "TaskType": "Normal",
+    "TaskName": "Normal Task",
+    "TaskDesc": "This is a normal task"
   },
   {
-    "userName":"automationadmin",
-    "password":"AutomationAdmin@123",
-    "TaskPackageName":"TaskPackageName",
-    "TaskPackageDec":"TaskPackageDesc",
-    "TaskName":"AutomationDecisionTask",
-    "TaskDesc":"Decision Task Description",
-    "TaskType":"Decision",
-    "Outcomes":"without rework,rework,scrapping"
+    "TaskPackageName": "TP_Decision",
+    "TaskPackageDec": "Package for decision task",
+    "TaskType": "Decision",
+    "TaskName": "Decision Task",
+    "TaskDesc": "Select outcome",
+    "Outcomes": "without rework, rework, as before"
+  },
+  {
+    "TaskPackageName": "TP_Notification",
+    "TaskPackageDec": "Package for notification task",
+    "TaskType": "Notification",
+    "TaskName": "Notification Task",
+    "TaskDesc": "Send notification",
+    "NotificationType": "Standard Task"
   }
 ]

@@ -13,6 +13,13 @@
           <include name="launchApplication"/>
         </methods>
       </class> <!-- SE.ChangeCokpitAutomation.Tests.CreateCOProcessMilestoneTest -->
+      <class name="SE.ChangeCokpitAutomation.Tests.CreateCOProcessTest">
+        <methods>
+          <include name="tearDown"/>
+          <include name="launchApplication"/>
+          <include name="createCOProcess"/>
+        </methods>
+      </class> <!-- SE.ChangeCokpitAutomation.Tests.CreateCOProcessTest -->
     </classes>
   </test> <!-- MasterDataTest(failed) -->
 </suite> <!-- Failed suite [Suite] -->

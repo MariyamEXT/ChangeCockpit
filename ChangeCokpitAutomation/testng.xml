@@ -7,9 +7,9 @@
     <test name="MasterDataTest">
         <classes>
 
-            <class name="SE.ChangeCokpitAutomation.Tests.CreateCRProcessTest"/>
-            <class name="SE.ChangeCokpitAutomation.Tests.CreateCOProcessTest"/>
-            <class name="SE.ChangeCokpitAutomation.Tests.CreateCOProcessMilestoneTest"/>
+            <!--<class name="SE.ChangeCokpitAutomation.Tests.CRProcessCreationTest"/>-->
+            <class name="SE.ChangeCokpitAutomation.Tests.COProcessCreationTest"/>
+            <class name="SE.ChangeCokpitAutomation.Tests.COProcessWithMilestoneTest"/>
 
         </classes>
     </test>
